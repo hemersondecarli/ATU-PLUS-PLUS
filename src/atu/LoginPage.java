@@ -1,15 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package atu;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -17,10 +18,13 @@ import javax.swing.JOptionPane;
  */
 public class LoginPage extends javax.swing.JFrame {
 
+    private Timer timer;
+    private String progressText = "Loading...";
+
     /**
      * Creates new form LoginPage
      */
-    public LoginPage() {
+    public LoginPage(String progress_Bar) {
         initComponents();
     }
 
@@ -39,14 +43,21 @@ public class LoginPage extends javax.swing.JFrame {
         userTF = new javax.swing.JTextField();
         passwordTF = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        secretKeyLabel = new javax.swing.JLabel();
+        secretKeyTF = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
+        sendButton = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setText("ATU++");
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel1.setText("Welcome To ATU++");
 
         jLabel2.setText("username");
 
@@ -59,12 +70,17 @@ public class LoginPage extends javax.swing.JFrame {
         });
 
         jLabel4.setText("Forgot password?");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
-        jLabel5.setText("secret key");
+        secretKeyLabel.setText("secret key");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        secretKeyTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                secretKeyTFActionPerformed(evt);
             }
         });
 
@@ -75,36 +91,55 @@ public class LoginPage extends javax.swing.JFrame {
             }
         });
 
+        sendButton.setText("Send");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
+
+        progressBar.setBackground(new java.awt.Color(255, 255, 255));
+        progressBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        progressBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        progressBar.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userTF)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                            .addComponent(passwordTF)
-                            .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2))
+                            .addGap(74, 74, 74)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(passwordTF, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                .addComponent(userTF)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(secretKeyLabel)
+                            .addGap(18, 18, 18)
+                            .addComponent(secretKeyTF, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(31, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(51, 51, 51)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(userTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,16 +147,18 @@ public class LoginPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel5))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(secretKeyTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(secretKeyLabel)
+                    .addComponent(sendButton))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -131,9 +168,9 @@ public class LoginPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userTFActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void secretKeyTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secretKeyTFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_secretKeyTFActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         String user = userTF.getText();
@@ -152,7 +189,7 @@ public class LoginPage extends javax.swing.JFrame {
                 String password = rs.getString("password");
 
                 if (user.equals(username) && pass.equals(password)) {
-                    new testFrame().setVisible(true);
+                    new OptionFrame().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "username or password incorrect!");
                 }
@@ -163,12 +200,68 @@ public class LoginPage extends javax.swing.JFrame {
 
         }
 
+        dispose();
     }//GEN-LAST:event_loginButtonActionPerformed
+
+
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        String secretKey = secretKeyTF.getText();
+
+        if (secretKey.equals("admin")) {
+            JOptionPane.showMessageDialog(this, "User: user \n Password: user");
+        }
+    }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        secretKeyLabel.setVisible(false);
+        secretKeyTF.setVisible(false);
+        sendButton.setVisible(false);
+
+        progressBar.setString("LOADING DATABASE..."); //seting text inside the progress bar
+        progressBar.setStringPainted(true); //displaying it
+        
+        progressBar.setForeground(Color.BLACK); // Change progress bar color
+      
+           
+        progressBar = progressBar;
+        //Adding all components such as textfield and buttons to an array.
+        Component[] components = new Component[]{jLabel2, jLabel3, userTF, passwordTF, loginButton, jLabel4};
+
+        //Timer to update progress bar
+        timer = new Timer(100, e -> {
+            int value = progressBar.getValue();
+            if (value < progressBar.getMaximum()) {
+                progressBar.setValue(value + 1);
+                //checking if the progress bar is not yet at 100%
+                if (value < progressBar.getMaximum()) {
+                    //hidding all components
+                    for (Component component : components) {
+                        component.setVisible(false);
+                    }
+                }
+            } else {
+                timer.stop(); //timer stops when progress bar is at 100%
+                for (Component component : components) {
+                    component.setVisible(true);
+                }
+                progressBar.setVisible(false);
+            }
+        });
+        timer.start(); //Start the timer
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        secretKeyLabel.setVisible(true);
+        secretKeyTF.setVisible(true);
+        sendButton.setVisible(true);
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -195,7 +288,7 @@ public class LoginPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginPage().setVisible(true);
+                new LoginPage("Progress Bar").setVisible(true);
             }
         });
     }
@@ -205,10 +298,12 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordTF;
+    private javax.swing.JProgressBar progressBar;
+    private javax.swing.JLabel secretKeyLabel;
+    private javax.swing.JTextField secretKeyTF;
+    private javax.swing.JButton sendButton;
     private javax.swing.JTextField userTF;
     // End of variables declaration//GEN-END:variables
 }
