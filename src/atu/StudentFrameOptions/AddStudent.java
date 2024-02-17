@@ -6,11 +6,16 @@
 package atu.StudentFrameOptions;
 
 import atu.MenuFrames.Student;
+import atu.OptionFrame;
+import atu.ViewCourses;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import java.util.Random;
 
 /**
  *
@@ -23,6 +28,7 @@ public class AddStudent extends javax.swing.JFrame {
      */
     public AddStudent() {
         initComponents();
+
     }
 
     /**
@@ -43,46 +49,76 @@ public class AddStudent extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        motherMobileTF = new javax.swing.JTextField();
-        idTF = new javax.swing.JTextField();
+        emergencyNoTF = new javax.swing.JTextField();
+        nameTF = new javax.swing.JTextField();
         surnameTF = new javax.swing.JTextField();
-        mobileTF = new javax.swing.JTextField();
-        classTF = new javax.swing.JTextField();
-        registrationTF = new javax.swing.JTextField();
+        phoneTF = new javax.swing.JTextField();
+        emailTF = new javax.swing.JTextField();
+        ppsnTF = new javax.swing.JTextField();
         addressTF = new javax.swing.JTextField();
-        motherNameTF = new javax.swing.JTextField();
+        emergencyNameTF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        programmeCodeTF = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        viewCoursesBT = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        idTF = new javax.swing.JTextField();
+        idBT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("STUDENT REGISTRATION");
         jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 37, -1, 55));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("ID:");
+        jLabel2.setText("Name:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, 32));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Surname:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 91, 40));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Mothers maiden Mobile:");
+        jLabel5.setText("Phone No:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 573, -1, 40));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Class:");
+        jLabel6.setText("Email:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 91, 40));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Registration No:");
+        jLabel7.setText("PPSN:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 121, 40));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Address:");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 91, 40));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Mobile:");
+        jLabel9.setText("Phone No:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 91, 40));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setText("Mothers maiden name:");
+        jLabel10.setText("Full Name:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 536, 165, 40));
+        getContentPane().add(emergencyNoTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 582, 490, 30));
+        getContentPane().add(nameTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 490, 30));
+        getContentPane().add(surnameTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 490, 30));
+        getContentPane().add(phoneTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 490, 30));
+        getContentPane().add(emailTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 490, 30));
+        getContentPane().add(ppsnTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 490, 30));
+        getContentPane().add(addressTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 490, 30));
+        getContentPane().add(emergencyNameTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 543, 490, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 0));
@@ -92,118 +128,63 @@ public class AddStudent extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 0, 39, 40));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(579, 631, 130, 60));
+        getContentPane().add(programmeCodeTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 490, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(surnameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(mobileTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(classTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)
-                        .addComponent(registrationTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(addressTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(motherNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(motherMobileTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(148, 148, 148)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(surnameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(mobileTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(classTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(registrationTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(addressTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(motherNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(motherMobileTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Programme Code:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 165, 40));
+
+        viewCoursesBT.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        viewCoursesBT.setText("View Courses");
+        viewCoursesBT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                viewCoursesBTMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                viewCoursesBTMouseExited(evt);
+            }
+        });
+        viewCoursesBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewCoursesBTActionPerformed(evt);
+            }
+        });
+        getContentPane().add(viewCoursesBT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 165, 35));
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel12.setText("EMERGENCY CONTACT");
+        jLabel12.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 463, -1, 55));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel13.setText("ID:");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 32));
+
+        idTF.setEnabled(false);
+        getContentPane().add(idTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 60, 30));
+
+        idBT.setText("GENERATE ID");
+        idBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idBTActionPerformed(evt);
+            }
+        });
+        getContentPane().add(idBT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+ViewCourses ViewCourses = new ViewCourses();
+
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         Student StudentPage = new Student();
@@ -212,33 +193,80 @@ public class AddStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int choice = 0;
+        //concatenation
+
         //making a connection with the database
         try {
+
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/atu", "root", "");
             Statement st = (Statement) conn.createStatement();
-            String sql = "insert into student_registration values(?,?,?,?,?,?,?,?)";
+            String sql = "insert into student_registration values(?,?,?,?,?,?,?,?,?)";
 
             PreparedStatement PreparedStatement = (PreparedStatement) conn.prepareStatement(sql);
 
-            PreparedStatement.setString(1, idTF.getText());
+            PreparedStatement.setString(1, nameTF.getText());
             PreparedStatement.setString(2, surnameTF.getText());
-            PreparedStatement.setString(3, mobileTF.getText());
-            PreparedStatement.setString(4, classTF.getText());
-            PreparedStatement.setString(5, registrationTF.getText());
+            PreparedStatement.setString(3, phoneTF.getText());
+            PreparedStatement.setString(4, emailTF.getText());
+            PreparedStatement.setString(5, ppsnTF.getText());
             PreparedStatement.setString(6, addressTF.getText());
-            PreparedStatement.setString(7, motherNameTF.getText());
-            PreparedStatement.setString(8, motherMobileTF.getText());
-            
-            PreparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Registration Successful");
-            conn.close();
+            PreparedStatement.setString(7, emergencyNameTF.getText());
+            PreparedStatement.setString(8, emergencyNoTF.getText());
+            PreparedStatement.setString(9, idTF.getText());
+
+            choice = JOptionPane.showConfirmDialog(this, "Are you sure all details are correctly?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                PreparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Registration Successful");
+                conn.close();
+            }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "e");
+            JOptionPane.showMessageDialog(null, "error");
 
         }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void viewCoursesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewCoursesBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewCoursesBTActionPerformed
+
+    private void viewCoursesBTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewCoursesBTMouseEntered
+        ViewCourses.setVisible(true);
+    }//GEN-LAST:event_viewCoursesBTMouseEntered
+
+    private void viewCoursesBTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewCoursesBTMouseExited
+
+        if (ViewCourses != null) {
+            ViewCourses.dispose();
+        }
+
+    }//GEN-LAST:event_viewCoursesBTMouseExited
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void idBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idBTActionPerformed
+        
+        Random random = new Random();
+        int idLength = 3;   //digits
+        StringBuilder idBuilder = new StringBuilder();
+        
+        for (int id = 0; id < idLength; id++) {
+            // random no 0-9
+            int digit = random.nextInt(10);
+            idBuilder.append(digit);
+        }
+
+      
+
+        idTF.setText("" + idBuilder);
+    }//GEN-LAST:event_idBTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,11 +305,17 @@ public class AddStudent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressTF;
-    private javax.swing.JTextField classTF;
+    private javax.swing.JTextField emailTF;
+    private javax.swing.JTextField emergencyNameTF;
+    private javax.swing.JTextField emergencyNoTF;
+    private javax.swing.JButton idBT;
     private javax.swing.JTextField idTF;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -290,10 +324,11 @@ public class AddStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField mobileTF;
-    private javax.swing.JTextField motherMobileTF;
-    private javax.swing.JTextField motherNameTF;
-    private javax.swing.JTextField registrationTF;
+    private javax.swing.JTextField nameTF;
+    private javax.swing.JTextField phoneTF;
+    private javax.swing.JTextField ppsnTF;
+    private javax.swing.JTextField programmeCodeTF;
     private javax.swing.JTextField surnameTF;
+    private javax.swing.JButton viewCoursesBT;
     // End of variables declaration//GEN-END:variables
 }
