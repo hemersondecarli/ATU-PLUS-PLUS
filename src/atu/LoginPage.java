@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -236,7 +237,7 @@ public class LoginPage extends javax.swing.JFrame {
         progressBar = progressBar;
         //Adding all components such as textfield and buttons to an array.
         Component[] components = new Component[]{jLabel2, jLabel3, userTF, passwordTF, loginButton, jLabel4};
-
+            
         //Timer to update progress bar
         timer = new Timer(100, e -> {
             int value = progressBar.getValue();
