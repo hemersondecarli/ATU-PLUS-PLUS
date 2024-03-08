@@ -5,10 +5,11 @@
  */
 package atu;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import atu.Class.ConnectionDB;
+import atu.StudentFrames.StudentFrame;
+import atu.TeacherFrames.TeacherFrame;
+import java.util.ArrayList;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -38,10 +39,10 @@ public class LoginFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        radioButton = new javax.swing.JRadioButton();
+        studentRB = new javax.swing.JRadioButton();
         teacherRB = new javax.swing.JRadioButton();
         staffRB = new javax.swing.JRadioButton();
-        userTF = new javax.swing.JTextField();
+        emailTF = new javax.swing.JTextField();
         passwordTF = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         loginBT = new javax.swing.JButton();
@@ -54,15 +55,15 @@ public class LoginFrame extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        buttonGroup1.add(radioButton);
-        radioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        radioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/atu/images/studentDesactive.png"))); // NOI18N
-        radioButton.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(studentRB);
+        studentRB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        studentRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/atu/images/studentDesactive.png"))); // NOI18N
+        studentRB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioButtonActionPerformed(evt);
+                studentRBActionPerformed(evt);
             }
         });
-        getContentPane().add(radioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 270, -1, -1));
+        getContentPane().add(studentRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 270, -1, -1));
 
         buttonGroup1.add(teacherRB);
         teacherRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/atu/images/teacherDesactive.png"))); // NOI18N
@@ -86,7 +87,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(staffRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(1500, 270, -1, -1));
-        getContentPane().add(userTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 670, 850, 40));
+        getContentPane().add(emailTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 670, 850, 40));
         getContentPane().add(passwordTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 790, 850, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/atu/images/Atu_Login_Prototype.png"))); // NOI18N
@@ -102,11 +103,11 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void radioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonActionPerformed
+    private void studentRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentRBActionPerformed
         //change img icon when button is selected
         ImageIcon studentSelectedIcon = new ImageIcon(getClass().getResource("/atu/images/studentActive.png"));
-        enabledButton(radioButton, studentSelectedIcon);
-    }//GEN-LAST:event_radioButtonActionPerformed
+        enabledButton(studentRB, studentSelectedIcon);
+    }//GEN-LAST:event_studentRBActionPerformed
     private void teacherRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherRBActionPerformed
         ImageIcon teacherSelectedIcon = new ImageIcon(getClass().getResource("/atu/images/teacherActive.png"));
         enabledButton(teacherRB, teacherSelectedIcon);
@@ -126,29 +127,55 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_staffRBMouseClicked
 
     private void loginBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBTActionPerformed
-        String user = userTF.getText();
-        String pass = passwordTF.getText();
-
-        if (staffRB.isSelected()) {
+        String emailInput = emailTF.getText();
+        String passwordInput = passwordTF.getText(); 
+        
+        Object[] parameters = {emailInput, passwordInput};
+        if (staffRB.isSelected() && !emailInput.equals("") && !passwordInput.equals("")) {
             //making a connection with the database
             try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/atu", "root", "");
-                Statement st = (Statement) conn.createStatement();
-                String sql = "select * from user_login";
-                ResultSet rs = st.executeQuery(sql);
-
-                while (rs.next()) {
-                    String username = rs.getString("user");
-                    String password = rs.getString("password");
-
-                    if (user.equals(username) && pass.equals(password)) {
-                        new OptionFrame().setVisible(true);
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "username or password incorrect!");
-                    }
+                String sql = "SELECT * FROM account WHERE  email = ? AND password = ? AND role_fk in (SELECT id FROM role WHERE name = 'Staff')";
+                ArrayList<Map<String, Object>> result = ConnectionDB.getQuery(sql, parameters);
+                
+                if(result.size() == 1){
+                   new OptionFrame().setVisible(true);
+                   dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "username or password incorrect!");
                 }
+        
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error connection to Database");
+            }
+        }else if (studentRB.isSelected() && !emailInput.equals("") && !passwordInput.equals("")){
+             try {
+                String sql = "SELECT * FROM account WHERE  email = ? AND password = ? AND role_fk in (SELECT id FROM role WHERE name = 'Student')";
+                ArrayList<Map<String, Object>> result = ConnectionDB.getQuery(sql, parameters);
+                
+                if(result.size() == 1){
+                    int idAccount = (int)result.get(0).get("id");
+                    new StudentFrame(idAccount).setVisible(true);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "username or password incorrect!");
+                }
+        
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error connection to Database");
+            }
+        }else if (teacherRB.isSelected() && !emailInput.equals("") && !passwordInput.equals("")){
+             try {
+                String sql = "SELECT * FROM account WHERE email = ? AND password = ? AND role_fk in (SELECT id FROM role WHERE name = 'Teacher')";
+                ArrayList<Map<String, Object>> result = ConnectionDB.getQuery(sql, parameters);
+                
+                if(result.size() == 1){
+                    int idAccount = (int)result.get(0).get("id");
+                    new TeacherFrame(idAccount).setVisible(true);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "username or password incorrect!");
+                }
+        
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error connection to Database");
             }
@@ -192,13 +219,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField emailTF;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginBT;
     private javax.swing.JTextField passwordTF;
-    private javax.swing.JRadioButton radioButton;
     private javax.swing.JRadioButton staffRB;
+    private javax.swing.JRadioButton studentRB;
     private javax.swing.JRadioButton teacherRB;
-    private javax.swing.JTextField userTF;
     // End of variables declaration//GEN-END:variables
 
     //Button icons desactivated
@@ -207,9 +234,9 @@ public class LoginFrame extends javax.swing.JFrame {
         ImageIcon studentUnselectedIcon = new ImageIcon(getClass().getResource("/atu/images/studentDesactive.png"));
         ImageIcon teacherUnselectedIcon = new ImageIcon(getClass().getResource("/atu/images/teacherDesactive.png"));
 
-        radioButton.setIcon(studentUnselectedIcon);
+        studentRB.setIcon(studentUnselectedIcon);
         teacherRB.setIcon(teacherUnselectedIcon);
         staffRB.setIcon(staffUnselectedIcon);
         button.setIcon(image);
-    }
+    }     
 }

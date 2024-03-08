@@ -5,15 +5,21 @@
  */
 package atu.TeacherFrames;
 
+import atu.MenuFrames.Chat;
+
 /**
  *
  * @author alber
  */
 public class TeacherFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TeacherFrame
-     */
+    int idAccount;
+    
+    public TeacherFrame(int idAccount) {
+        initComponents();
+        this.idAccount = idAccount;
+    }
+    
     public TeacherFrame() {
         initComponents();
     }
@@ -27,16 +33,22 @@ public class TeacherFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        timetableBT = new javax.swing.JButton();
+        chatBT = new javax.swing.JButton();
         searchBT = new javax.swing.JButton();
         attendanceBT = new javax.swing.JButton();
         gradeBT = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        timetableBT1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        timetableBT.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        timetableBT.setText("TIMETABLE");
+        chatBT.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        chatBT.setText("CHAT");
+        chatBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatBTActionPerformed(evt);
+            }
+        });
 
         searchBT.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         searchBT.setText("SEARCH STUDENT");
@@ -50,37 +62,44 @@ public class TeacherFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("TEACHER OPTIONS");
 
+        timetableBT1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        timetableBT1.setText("TIMETABLE");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(gradeBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchBT, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(searchBT, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                    .addComponent(gradeBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(18, 26, Short.MAX_VALUE)
-                        .addComponent(timetableBT, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(attendanceBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(attendanceBT, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(timetableBT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(108, 108, 108))
+                .addContainerGap(275, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(chatBT, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(272, 272, 272))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addComponent(chatBT, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchBT, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timetableBT, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timetableBT1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(attendanceBT, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -90,6 +109,12 @@ public class TeacherFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void chatBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatBTActionPerformed
+        Chat chat = new Chat("Teacher", idAccount);
+        chat.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_chatBTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,9 +153,10 @@ public class TeacherFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attendanceBT;
+    private javax.swing.JButton chatBT;
     private javax.swing.JButton gradeBT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton searchBT;
-    private javax.swing.JButton timetableBT;
+    private javax.swing.JButton timetableBT1;
     // End of variables declaration//GEN-END:variables
 }

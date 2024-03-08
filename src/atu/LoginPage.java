@@ -1,7 +1,7 @@
 package atu;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
